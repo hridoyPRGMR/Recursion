@@ -1,4 +1,4 @@
-public class sortedOrnot{
+public class ArrayIsSorted{
 
 	/*
 	public static boolean sort(int []nums,int idx,int size){
