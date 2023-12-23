@@ -2,30 +2,40 @@ import java.util.Scanner;
 
 public class NlengthBinSeq {
 
-    public static void binarySeq(int n, int idx, String bin, String seq) {
-        if (idx == n) {
-            int sum1=0,sum2=0;
-            for (int i = 0; i <n/2; i++) {
-                int digit = seq.charAt(i) - '0';
-                if (i < n / 2)sum1 += digit; 
-                else sum2 += digit; 
-            }            
-            if(sum1==sum2){
-                System.out.println(seq);
+    public static void binarySeq(int diff,char []seq,int start,int end) {
+        
+        if(Math.abs(diff)>(end-start+1)/2)return;
+
+        if(start>end){
+            if(diff==0){
+                System.out.print(seq);
+                System.err.println();
             }
             return;
         }
 
-        for (int i = 0; i < 2; i++) {
-            String newSeq = seq + bin.charAt(i);
-            binarySeq(n, idx + 1, bin, newSeq);
-        }
+        seq[start]=seq[end]='0';
+        binarySeq(diff, seq, start+1, end-1);
+
+        seq[start]='0';
+        seq[end]='1';
+        binarySeq(diff+1, seq, start+1, end-1);
+
+        seq[start]=seq[end]='1';
+        binarySeq(diff, seq, start+1, end-1);
+
+        seq[start]='1';
+        seq[end]='0';
+        binarySeq(diff-1, seq, start+1, end-1);
     }
 
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
         int n = in.nextInt();
         in.close();
-        binarySeq(n*2, 0, "01", "");
+
+        char []seq=new char[2*n+1];
+        seq[2*n]='\0';
+        binarySeq(0,seq,0,2*n-1);
     }
 }
